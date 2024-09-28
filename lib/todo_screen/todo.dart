@@ -91,7 +91,7 @@ class _TodoState extends State<Todo> {
           children: [
             textField(titleController, "Enter your Todo title"),
             const SizedBox(
-              height: 10,
+              height: 2,
             ),
             textField(
                 descriptionController, "Enter the description of your todo"),
