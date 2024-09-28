@@ -64,29 +64,56 @@ class _TodoState extends State<Todo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 223, 201, 8),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: const Center(
+          child: Text(
+            "Todo App",
+            style: TextStyle(
+                shadows: [
+                  Shadow(
+                    blurRadius: 1.0,
+                    color: Color.fromARGB(255, 185, 185, 185),
+                    offset: Offset(5.0, 0.0),
+                  ),
+                ],
+                color: Color.fromARGB(255, 50, 101, 190),
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+                fontStyle: FontStyle.normal),
+          ),
+        ),
+      ),
+      backgroundColor: const Color.fromARGB(255, 50, 101, 190),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            textField(titleController, "enter your Todo title"),
+            textField(titleController, "Enter your Todo title"),
             const SizedBox(
               height: 10,
             ),
             textField(
-                descriptionController, "enter the description of your todo"),
+                descriptionController, "Enter the description of your todo"),
             const SizedBox(
               height: 10,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                buttonElevated(add),
-                buttondeleteElevated(delete),
-              ],
+            if (!addbool)
+              SizedBox(
+                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  buttonElevated(add, name: "Add"),
+                  buttondeleteElevated(delete),
+                ],
+              ))
+            else
+              buttonElevated(add, name: "Update"),
+            const SizedBox(
+              height: 15,
             ),
             Expanded(
-              child: ListView.builder(
+              child: ListView.separated(
                 itemBuilder: (context, index) {
                   return listtile(todoList[index]["title"] ?? "",
                       todoList[index]["description"] ?? "", () {
@@ -97,6 +124,11 @@ class _TodoState extends State<Todo> {
                   });
                 },
                 itemCount: todoList.length,
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    height: 15,
+                  );
+                },
               ),
             )
           ],
